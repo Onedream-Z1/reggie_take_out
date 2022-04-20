@@ -12,6 +12,19 @@ spring:
       url: jdbc:mysql://127.0.0.1:3307/reggie?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: 990613
+  redis:
+    host: 192.168.91.129
+    port: 6379
+    password: zjf990613
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 1
+        time-between-eviction-runs: 10s
+    database: 1
+  jackson:
+    default-property-inclusion: non_null
 mybatis-plus:
   configuration:
     #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
