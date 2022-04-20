@@ -23,6 +23,9 @@ spring:
         min-idle: 1
         time-between-eviction-runs: 10s
     database: 1
+  cache:
+    redis:
+      time-to-live: 1800000 #设置缓存的过期时间
   jackson:
     default-property-inclusion: non_null
 mybatis-plus:
