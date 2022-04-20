@@ -21,10 +21,20 @@ public class UserController {
     private UserServiceImpl userService;
 
     /**
+     * 验证码获取
+     */
+    @PostMapping("/sendMsg")
+    public R<String> sendMessage(@RequestBody String phone){
+        return userService.sendMsg(phone);
+    }
+
+    /**
      * 用户登录
      */
     @PostMapping("/login")
     public R<User> login(@RequestBody Map map, HttpServletRequest request){
         return userService.login(map,request);
     }
+
+
 }

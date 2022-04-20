@@ -1,5 +1,7 @@
 package cn.xz.reggie.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONUtil;
 import cn.xz.reggie.common.R;
 import cn.xz.reggie.dto.DishDto;
 import cn.xz.reggie.entity.Category;
@@ -8,6 +10,7 @@ import cn.xz.reggie.entity.DishFlavor;
 import cn.xz.reggie.mapper.DishMapper;
 import cn.xz.reggie.service.CategoryService;
 import cn.xz.reggie.service.DishService;
+import com.alibaba.druid.support.json.JSONUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,11 +18,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +37,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
 
     @Override
@@ -136,6 +144,13 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         dishFlavorService.remove(wrapper);
         //将上面处理的flavors插入到DishFlavor
         dishFlavorService.saveBatch(flavors);
+
+        //根据categoryId来清理Redis缓存
+        //获取categoryId
+        String key="dish:"+dishDto.getCategoryId()+":"+dishDto.getStatus();
+        stringRedisTemplate.delete(key);
+
+
         return R.success("修成菜品信息成功");
     }
 
@@ -197,6 +212,19 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     @Override
     public R<List<DishDto>> listDish(Dish dish) {
+        List<DishDto> dishDtoList=null;
+        //设计一个key
+        String key="dish:"+dish.getCategoryId()+":"+dish.getStatus();
+        //先从Redis获取缓存数据
+        String dishJSon = stringRedisTemplate.opsForValue().get(key);
+        dishDtoList = JSONUtil.toList(dishJSon, DishDto.class);
+        //判断redis中是否有数据
+        if (dishDtoList.size()>0){
+            //有则返回
+            return R.success(dishDtoList);
+        }
+        //没有则继续向下
+
         //构造条件器
         LambdaQueryWrapper<Dish> wrapper=new LambdaQueryWrapper<>();
         //执行查询条件  停售的不查询出来  添加两个排序条件
@@ -206,7 +234,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         //执行查询
         List<Dish> dishList = list(wrapper);
 
-        List<DishDto> dishDtoList= dishList.stream().map((items)->{
+        dishDtoList= dishList.stream().map((items)->{
             DishDto dishDto = new DishDto();
             //因为dishDto是我们自己new出来来的因此除了有一个categoryName之外，其他的值都没有
             BeanUtils.copyProperties(items,dishDto);
@@ -226,6 +254,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
             return dishDto;
         }).collect(Collectors.toList());
+
+        String dishJsonStr = JSONUtil.toJsonStr(dishDtoList);
+
+        //将查询出来的数据重新缓存到Redis中
+        stringRedisTemplate.opsForValue().set(key,dishJsonStr,60L, TimeUnit.MINUTES);
 
         //返回查询结果
         return R.success(dishDtoList);

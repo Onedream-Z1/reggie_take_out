@@ -7,6 +7,8 @@ import cn.xz.reggie.service.impl.SetmealServiceImpl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +29,8 @@ public class SetmealDishController {
      * @return
      */
     @PostMapping
+    //将一条或多条数据从缓存中删除
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public R<String> save(@RequestBody SetmealDto setmealDto){
         return setmealService.saveSetmeal(setmealDto);
     }
@@ -43,6 +47,8 @@ public class SetmealDishController {
      * 删除套餐
      */
     @DeleteMapping
+    //将一条或多条数据从缓存中删除
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public R<String> delete(@RequestParam List<Long> ids){
 //        log.info("ids为{}",ids);
         return setmealService.deleteWithDish(ids);
@@ -80,6 +86,10 @@ public class SetmealDishController {
      * 移动端套餐展示
      */
     @GetMapping("/list")
+    //@Cacheable注解：Spring cache的注解 -- 在方法执行前先查看缓存中是否有数据，如果有数据，则直接返回缓存的数据；
+    //               若没有数据，调用方法并将此方法的返回值存放到缓存中
+    //               注意：Cacheable中缓存的数据(对象),必须要实现序列化接口
+    @Cacheable(value = "setmealCache",key = "#setmeal.categoryId+':1'")
     public R<List<Setmeal>> list(Setmeal setmeal){
         //log.info("setmeal={}",setmeal.toString());
         return setmealService.listSetMeal(setmeal);
