@@ -3,10 +3,12 @@ package cn.xz.reggie.controller;
 
 import cn.xz.reggie.common.R;
 import cn.xz.reggie.entity.Employee;
+import cn.xz.reggie.service.EmployeeService;
 import cn.xz.reggie.service.impl.EmployeeServiceImpl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +20,7 @@ import java.net.http.HttpRequest;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeServiceImpl employeeService;
+    private EmployeeService employeeService;
 
     @PostMapping("/login")
     public R<Employee> userLogin(HttpServletRequest request, @RequestBody Employee employee){

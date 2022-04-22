@@ -9,6 +9,7 @@ import cn.xz.reggie.entity.Dish;
 import cn.xz.reggie.entity.DishFlavor;
 import cn.xz.reggie.mapper.DishMapper;
 import cn.xz.reggie.service.CategoryService;
+import cn.xz.reggie.service.DishFlavorService;
 import cn.xz.reggie.service.DishService;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -18,6 +19,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +35,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
 
     @Autowired
-    private DishFlavorServiceImpl dishFlavorService;
+    private DishFlavorService dishFlavorService;
 
+    @Lazy
     @Autowired
     private CategoryService categoryService;
 

@@ -6,7 +6,7 @@ import cn.xz.reggie.common.R;
 import cn.xz.reggie.dto.OrdersDto;
 import cn.xz.reggie.entity.*;
 import cn.xz.reggie.mapper.OrdersMapper;
-import cn.xz.reggie.service.OrdersService;
+import cn.xz.reggie.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,16 +29,16 @@ import java.util.stream.Collectors;
 public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> implements OrdersService {
 
     @Autowired
-    private OrderDetailServiceImpl orderDetailService;
+    private OrderDetailService orderDetailService;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
-    private AddressBookServiceImpl addressBookService;
+    private AddressBookService addressBookService;
 
     @Autowired
-    private ShoppingCartServiceImpl shoppingCartService;
+    private ShoppingCartService shoppingCartService;
 
     /**
      * 用户下单

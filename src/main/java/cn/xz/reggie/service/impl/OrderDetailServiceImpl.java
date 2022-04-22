@@ -5,6 +5,7 @@ import cn.xz.reggie.mapper.OrderDetailMapper;
 import cn.xz.reggie.service.OrderDetailService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Slf4j

@@ -4,10 +4,12 @@ package cn.xz.reggie.controller;
 import cn.xz.reggie.common.R;
 import cn.xz.reggie.dto.DishDto;
 import cn.xz.reggie.entity.Dish;
+import cn.xz.reggie.service.DishService;
 import cn.xz.reggie.service.impl.DishFlavorServiceImpl;
 import cn.xz.reggie.service.impl.DishServiceImpl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.List;
 public class DishController {
 
     @Autowired
-    private DishServiceImpl dishService;
+    private DishService dishService;
 //    @Autowired
 //    private DishFlavorServiceImpl dishFlavorService;
 
