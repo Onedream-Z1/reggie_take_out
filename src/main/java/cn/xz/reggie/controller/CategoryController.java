@@ -2,10 +2,12 @@ package cn.xz.reggie.controller;
 
 import cn.xz.reggie.common.R;
 import cn.xz.reggie.entity.Category;
+import cn.xz.reggie.service.CategoryService;
 import cn.xz.reggie.service.impl.CategoryServiceImpl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    private CategoryServiceImpl categoryService;
+    private CategoryService categoryService;
 
     @PostMapping
     public R<String> saveCategory(@RequestBody Category category){

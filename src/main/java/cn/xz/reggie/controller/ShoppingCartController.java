@@ -2,8 +2,10 @@ package cn.xz.reggie.controller;
 
 import cn.xz.reggie.common.R;
 import cn.xz.reggie.entity.ShoppingCart;
+import cn.xz.reggie.service.ShoppingCartService;
 import cn.xz.reggie.service.impl.ShoppingCartServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +17,7 @@ import java.util.List;
 public class ShoppingCartController {
 
     @Autowired
-    private ShoppingCartServiceImpl shoppingCartService;
+    private ShoppingCartService shoppingCartService;
 
     /**
      * 购物车添加功能

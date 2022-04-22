@@ -3,12 +3,14 @@ package cn.xz.reggie.controller;
 import cn.xz.reggie.common.R;
 import cn.xz.reggie.dto.SetmealDto;
 import cn.xz.reggie.entity.Setmeal;
+import cn.xz.reggie.service.SetmealService;
 import cn.xz.reggie.service.impl.SetmealServiceImpl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.List;
 @RequestMapping("/setmeal")
 public class SetmealDishController {
     @Autowired
-    private SetmealServiceImpl setmealService;
+    private SetmealService setmealService;
 
     /**
      * 新增套餐

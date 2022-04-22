@@ -7,6 +7,8 @@ import cn.xz.reggie.entity.Category;
 import cn.xz.reggie.entity.Setmeal;
 import cn.xz.reggie.entity.SetmealDish;
 import cn.xz.reggie.mapper.SetmealMapper;
+import cn.xz.reggie.service.CategoryService;
+import cn.xz.reggie.service.SetmealDishService;
 import cn.xz.reggie.service.SetmealService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -15,6 +17,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +30,11 @@ import java.util.stream.Collectors;
 public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> implements SetmealService {
 
     @Autowired
-    private SetmealDishServiceImpl setmealDishService;
+    private SetmealDishService setmealDishService;
+
+    @Lazy
     @Autowired
-    private CategoryServiceImpl categoryService;
+    private CategoryService categoryService;
 
     /**
      * 新增套餐，以及同时需要保存套餐和菜品的关联关系

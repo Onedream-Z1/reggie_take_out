@@ -2,11 +2,12 @@ package cn.xz.reggie.controller;
 
 import cn.xz.reggie.common.R;
 import cn.xz.reggie.entity.AddressBook;
-import cn.xz.reggie.service.impl.AddressBookServiceImpl;
+import cn.xz.reggie.service.AddressBookService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
@@ -14,8 +15,8 @@ import java.util.List;
 @RequestMapping("/addressBook")
 public class AddressBookController {
 
-    @Autowired
-    private AddressBookServiceImpl addressBookService;
+    @Resource
+    private AddressBookService addressBookService;
 
     /**
      * 新增地址

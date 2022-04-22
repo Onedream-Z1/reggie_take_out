@@ -2,9 +2,11 @@ package cn.xz.reggie.controller;
 
 import cn.xz.reggie.common.R;
 import cn.xz.reggie.entity.User;
+import cn.xz.reggie.service.UserService;
 import cn.xz.reggie.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,7 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     /**
      * 验证码获取

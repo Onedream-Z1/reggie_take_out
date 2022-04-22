@@ -7,11 +7,14 @@ import cn.xz.reggie.entity.Dish;
 import cn.xz.reggie.entity.Setmeal;
 import cn.xz.reggie.mapper.CategoryMapper;
 import cn.xz.reggie.service.CategoryService;
+import cn.xz.reggie.service.DishService;
+import cn.xz.reggie.service.SetmealService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +25,9 @@ import java.util.List;
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
     @Autowired
-    private DishServiceImpl dishService;
+    private DishService dishService;
     @Autowired
-    private SetmealServiceImpl setmealService;
+    private SetmealService setmealService;
 
     @Override
     @Transactional
