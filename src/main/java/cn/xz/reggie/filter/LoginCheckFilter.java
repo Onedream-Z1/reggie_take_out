@@ -14,7 +14,7 @@ import java.io.IOException;
 
 
 /**
- * 检查用户是否完成登录
+ * 检查用户是否完成登录，也就是登录状态
  */
 @Slf4j
 @WebFilter(filterName = "loginCheckFilter",urlPatterns = "/*")
@@ -38,7 +38,12 @@ public class LoginCheckFilter implements Filter {
             "/front/**",
             "/common/**",
             "/user/sendMsg",
-             "/user/login"
+             "/user/login",
+              //对接口文件页面访问实行不过滤
+             "/doc.html",
+              "/webjars/**",
+              "/swagger-resources",
+              "/v2/api-docs"
         };
         //2、判断本次请求是否需要处理
         boolean check=check(urls,requestURI);
