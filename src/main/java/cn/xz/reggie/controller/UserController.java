@@ -38,5 +38,11 @@ public class UserController {
         return userService.login(map,request);
     }
 
+    @PostMapping("/logout")
+    public R<String> logout(HttpServletRequest request){
+        request.getSession().removeAttribute("user");
+        return R.success("退出成功");
+    }
+
 
 }
