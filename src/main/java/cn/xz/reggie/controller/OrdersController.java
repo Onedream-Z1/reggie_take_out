@@ -26,8 +26,15 @@ public class OrdersController {
      * 最新订单查询
      */
     @GetMapping("/userPage")
-    private R<Page> pageOrder(int page,int pageSize){
+    public R<Page> pageOrder(int page,int pageSize){
         return ordersService.pageOrder(page,pageSize);
     }
+
+    @GetMapping("/page")
+    public R<Page> pageOrder2(int page,int pageSize){
+        return ordersService.pageOrder(page,pageSize);
+    }
+
+
 
 }
